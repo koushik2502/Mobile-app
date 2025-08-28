@@ -1,0 +1,23 @@
+pluginManagement {
+    repositories {
+        gradlePluginPortal()
+        google()
+        mavenCentral()
+        maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
+        maven { url "https://www.jitpack.io" }
+    }
+}
+
+dependencyResolutionManagement {
+    repositories {
+        google()
+        mavenCentral()
+        maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
+        maven { url "https://www.jitpack.io" }
+    }
+}
+
+rootProject.name = "mobile-app"
+include(":app")
+project(":app").projectDir = file("app")
+includeBuild("../node_modules/@react-native/gradle-plugin")
