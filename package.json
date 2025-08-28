@@ -2,17 +2,11 @@
   "name": "mobile-app",
   "version": "1.0.0",
   "scripts": {
-    "start": "react-native start",
-    "android": "react-native run-android",
-    "ios": "react-native run-ios"
+    "start": "cd phone_control_mobile && react-native start",
+    "android": "cd phone_control_mobile && react-native run-android",
+    "ios": "cd phone_control_mobile && react-native run-ios"
   },
-  "dependencies": {
-    "react-native": "0.72.11",
-    "firebase": "^12.1.0",
-    "@react-native-firebase/app": "^23.1.2",
-    "@react-native-firebase/database": "^23.1.2"
-  },
-  "devDependencies": {
-    "@react-native-community/cli": "latest"
-  }
+  "workspaces": [
+    "phone_control_mobile"
+  ]
 }

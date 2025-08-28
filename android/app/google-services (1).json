@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "428817953538",
+    "firebase_url": "https://phonecontrol-250208-default-rtdb.firebaseio.com",
+    "project_id": "phonecontrol-250208",
+    "storage_bucket": "phonecontrol-250208.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:428817953538:android:6c2986313c4852ff42881b",
+        "android_client_info": {
+          "package_name": "com.example.phonecontrol"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA5ce5JRSsc6cJ4fnp15-YuQCjomSKbfzw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

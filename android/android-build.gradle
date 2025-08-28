@@ -1,0 +1,38 @@
+// Root build.gradle file
+
+// Apply the base plugin to add the 'clean' task
+apply plugin: 'base'
+
+buildscript {
+    repositories {
+        google()
+        mavenCentral()
+    }
+    dependencies {
+        classpath("com.android.tools.build:gradle:8.2.0")
+        classpath("com.facebook.react:react-native-gradle-plugin:0.72.11")
+        // Firebase Google services plugin
+        classpath 'com.google.gms:google-services:4.4.0'
+    }
+}
+
+allprojects {
+    repositories {
+        google()
+        mavenCentral()
+    }
+}
+
+// Shared SDK and build properties accessible to subprojects
+ext {
+    compileSdkVersion = 34
+    minSdkVersion = 21
+    targetSdkVersion = 34
+    buildToolsVersion = "34.0.0"
+    jscFlavor = "org.webkit:android-jsc:+"
+}
+
+// Define 'clean' task explicitly (optional, if you want custom cleaning)
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}
